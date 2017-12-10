@@ -4,12 +4,11 @@ import fr.blois.siad.jee.tp2.dto.Utilisateur;
 import fr.blois.siad.jee.tp2.services.UtilisateurService;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 @ManagedBean
 @RequestScoped
@@ -20,26 +19,19 @@ public class UtilisateursBean {
     private String nom;
 
     private static final long serialVersionUID = 1L;
+    
+    @EJB
+    UtilisateurService utilisateurService;
 
     public UtilisateursBean() {
     }
 
     public List<Utilisateur> getUtilisateurs() {
-        return getService().listerTous();
+        return utilisateurService.listerTous();
     }
     
     public List<Utilisateur> getUtilisateursTrieID() {
-        return getService().listerUtilisateurTrieID();
-    }
-
-    private UtilisateurService getService() {
-        try {
-            UtilisateurService beanRemote = (UtilisateurService) new InitialContext().lookup("UtilisateurService");
-            return beanRemote;
-        } catch (NamingException ne) {
-            System.err.println(ne);
-        }
-        return null;
+        return utilisateurService.listerUtilisateurTrieID();
     }
 
     public String getEmail() {
@@ -88,12 +80,12 @@ public class UtilisateursBean {
         }
 
         // Cas nominal
-        getService().ajouter(new Utilisateur(null, email, motDePasse, nom, new Date()));
+        utilisateurService.ajouter(new Utilisateur(null, email, motDePasse, nom, new Date()));
         return "index";
     }
     
     public String supprimer(Integer id) {
-        getService().supprimer(id);
+        utilisateurService.supprimer(id);
         return "index";
     }
 }
