@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="css" name="table-style.css" />
+    </h:head>
+    <h:body>
+        <h1>Liste des utilisateurs</h1>
+        <h:form>
+            <h:dataTable value="#{utilisateursBean.utilisateurs}" var="o"
+                     styleClass="order-table"
+                     headerClass="order-table-header"
+                     rowClasses="order-table-odd-row, order-table-even-row">
+                <h:column>
+                    <f:facet name="header">
+                        <h:commandLink action="#{utilisateursBean.getUtilisateursTrieID}">
+                            ID
+                        </h:commandLink>
+                    </f:facet>
+                        #{o.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nom</f:facet>
+                        #{o.nom}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Email</f:facet>
+                        #{o.email}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Mot de passe</f:facet>
+                        #{o.motDePasse}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Inscription</f:facet>
+                    <h:outputText value="#{o.dateInscription}">
+                        <f:convertDateTime pattern="dd MMM YYYY" locale="fr"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"></f:facet>
+                    <h:form>
+                        <h:commandButton value="Supprimer" action="${utilisateursBean.supprimer(o.id)}" />
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        <h:form>
+            <h:commandButton value="Nouvel utilisateur" action="ajout" />
+        </h:form>
+        
+    </h:body>
+</html>
