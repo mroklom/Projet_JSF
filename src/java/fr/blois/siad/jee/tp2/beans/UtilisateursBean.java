@@ -39,9 +39,17 @@ public class UtilisateursBean {
     }
     
     public String getUtilisateursTrieID() {
-        
         utilisateurs = utilisateurService.listerUtilisateurTrieID();
-        
+        return null;
+    }
+    
+    public String getUtilisateursTrieNom() {
+        utilisateurs = utilisateurService.listerUtilisateurTrieNom();
+        return null;
+    }
+    
+    public String getUtilisateursTrieEmail() {
+        utilisateurs = utilisateurService.listerUtilisateurTrieEmail();
         return null;
     }
 
@@ -92,6 +100,7 @@ public class UtilisateursBean {
 
         // Cas nominal
         utilisateurService.ajouter(new Utilisateur(null, email, motDePasse, nom, new Date(), false));
+        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     

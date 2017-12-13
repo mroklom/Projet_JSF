@@ -21,11 +21,19 @@
                         #{o.id}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Nom</f:facet>
+                    <f:facet name="header">
+                        <h:commandLink action="#{utilisateursBean.getUtilisateursTrieNom}">
+                            Nom
+                        </h:commandLink>
+                    </f:facet>
                         #{o.nom}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Email</f:facet>
+                    <f:facet name="header">
+                        <h:commandLink action="#{utilisateursBean.getUtilisateursTrieEmail}">
+                        Email
+                        </h:commandLink>
+                    </f:facet>
                         #{o.email}
                 </h:column>
                 <h:column>
