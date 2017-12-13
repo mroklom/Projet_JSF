@@ -22,7 +22,7 @@ import javax.ejb.Startup;
 @Startup
 public class RemplissageBDDBean {
     
-    @EJB
+    /*@EJB
     UtilisateurService utilisateurService;
     
     @PostConstruct
@@ -112,5 +112,5 @@ public class RemplissageBDDBean {
                 "chocolate", 
                 "Ava Menard", 
                 c.getTime()));        
-    }
+    }*/
 }

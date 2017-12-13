@@ -4,34 +4,45 @@ import fr.blois.siad.jee.tp2.dto.Utilisateur;
 import fr.blois.siad.jee.tp2.services.UtilisateurService;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class UtilisateursBean {
 
     private String email;
     private String motDePasse;
     private String nom;
-
+    
     private static final long serialVersionUID = 1L;
+    
+    private List<Utilisateur> utilisateurs;
     
     @EJB
     UtilisateurService utilisateurService;
-
+    
+    @PostConstruct
+    public void _init() {
+        utilisateurs = utilisateurService.listerTous();
+    }
+    
     public UtilisateursBean() {
     }
 
     public List<Utilisateur> getUtilisateurs() {
-        return utilisateurService.listerTous();
+        return utilisateurs;
     }
     
-    public List<Utilisateur> getUtilisateursTrieID() {
-        return utilisateurService.listerUtilisateurTrieID();
+    public String getUtilisateursTrieID() {
+        
+        utilisateurs = utilisateurService.listerUtilisateurTrieID();
+        
+        return null;
     }
 
     public String getEmail() {
@@ -80,12 +91,23 @@ public class UtilisateursBean {
         }
 
         // Cas nominal
-        utilisateurService.ajouter(new Utilisateur(null, email, motDePasse, nom, new Date()));
+        utilisateurService.ajouter(new Utilisateur(null, email, motDePasse, nom, new Date(), false));
         return "index";
     }
     
     public String supprimer(Integer id) {
         utilisateurService.supprimer(id);
+        return "index";
+    }
+    
+    public String bloquer(Integer id) {
+        System.out.println("Bloquer " + id);
+        utilisateurService.bloquer(id);
+        return "index";
+    }
+    
+    public String debloquer(Integer id) {
+        utilisateurService.debloquer(id);
         return "index";
     }
 }
