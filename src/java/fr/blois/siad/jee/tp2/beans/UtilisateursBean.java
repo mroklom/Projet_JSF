@@ -2,6 +2,7 @@ package fr.blois.siad.jee.tp2.beans;
 
 import fr.blois.siad.jee.tp2.dto.Utilisateur;
 import fr.blois.siad.jee.tp2.services.UtilisateurService;
+import fr.blois.siad.jee.tp2.services.UtilisateurServiceBean;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,36 +29,61 @@ public class UtilisateursBean {
     
     private static final long serialVersionUID = 1L;
     
-    private List<Utilisateur> utilisateurs;
+    private int triCourant = 0;
     
     @EJB
     UtilisateurService utilisateurService;
-    
-    @PostConstruct
-    public void _init() {
-        utilisateurs = utilisateurService.listerTous();
-    }
     
     public UtilisateursBean() {
     }
 
     public List<Utilisateur> getUtilisateurs() {
-        return utilisateurs;
+        return utilisateurService.listerTous(triCourant);
     }
     
     public String getUtilisateursTrieID() {
-        utilisateurs = utilisateurService.listerUtilisateurTrieID();
-        return null;
+        switch (triCourant) {
+            case UtilisateurServiceBean.TRIIDASC:
+                triCourant = UtilisateurServiceBean.TRIIDDESC;
+                break;
+            case UtilisateurServiceBean.TRIIDDESC:
+                triCourant = UtilisateurServiceBean.TRIIDASC;
+                break;
+            default:
+                triCourant = UtilisateurServiceBean.TRIIDASC;
+                break;
+        }
+        return "index";
     }
     
     public String getUtilisateursTrieNom() {
-        utilisateurs = utilisateurService.listerUtilisateurTrieNom();
-        return null;
+        switch (triCourant) {
+            case UtilisateurServiceBean.TRINOMASC:
+                triCourant = UtilisateurServiceBean.TRINOMDESC;
+                break;
+            case UtilisateurServiceBean.TRINOMDESC:
+                triCourant = UtilisateurServiceBean.TRINOMASC;
+                break;
+            default:
+                triCourant = UtilisateurServiceBean.TRINOMASC;
+                break;
+        }
+        return "index";
     }
     
     public String getUtilisateursTrieEmail() {
-        utilisateurs = utilisateurService.listerUtilisateurTrieEmail();
-        return null;
+        switch (triCourant) {
+            case UtilisateurServiceBean.TRIEMAILASC:
+                triCourant = UtilisateurServiceBean.TRIEMAILDESC;
+                break;
+            case UtilisateurServiceBean.TRIEMAILDESC:
+                triCourant = UtilisateurServiceBean.TRIEMAILASC;
+                break;
+            default:
+                triCourant = UtilisateurServiceBean.TRIEMAILASC;
+                break;
+        }
+        return "index";
     }
 
     public String getEmail() {
@@ -107,25 +133,21 @@ public class UtilisateursBean {
 
         // Cas nominal
         utilisateurService.ajouter(new Utilisateur(null, email, motDePasse, nom, new Date(), false));
-        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     
     public String supprimer(Integer id) {
         utilisateurService.supprimer(id);
-        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     
     public String bloquer(Integer id) {
         utilisateurService.bloquer(id);
-        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     
     public String debloquer(Integer id) {
         utilisateurService.debloquer(id);
-        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     
