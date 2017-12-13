@@ -10,8 +10,9 @@
         <h:form>
             <h:dataTable value="#{utilisateursBean.utilisateurs}" var="o"
                      styleClass="order-table"
-                     headerClass="order-table-header"
+                     headerClass="order-table-header"                  
                      rowClasses="order-table-odd-row, order-table-even-row">
+                    
                 <h:column>
                     <f:facet name="header">
                         <h:commandLink action="#{utilisateursBean.getUtilisateursTrieID}">

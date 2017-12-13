@@ -10,13 +10,20 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @ManagedBean
 @SessionScoped
 public class UtilisateursBean {
-
+       
+    @Pattern(regexp = "[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})")
     private String email;
+    
+    @Size(min = 8, max = 32, message = "Le mot de passe doit être entre {min} et {max} caractères")
     private String motDePasse;
+    
+    @Size(min = 2, max = 32, message = "Le nom doit être entre {min} et {max} caractères" )
     private String nom;
     
     private static final long serialVersionUID = 1L;
@@ -106,17 +113,19 @@ public class UtilisateursBean {
     
     public String supprimer(Integer id) {
         utilisateurService.supprimer(id);
+        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     
     public String bloquer(Integer id) {
-        System.out.println("Bloquer " + id);
         utilisateurService.bloquer(id);
+        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
     
     public String debloquer(Integer id) {
         utilisateurService.debloquer(id);
+        utilisateurs = utilisateurService.listerTous();
         return "index";
     }
 }
