@@ -19,7 +19,8 @@
                             ID
                         </h:commandLink>
                     </f:facet>
-                        #{o.id}
+                    <h:outputFormat value = "#{o.id}" rendered="#{o.bloque}" style="color:red" />
+                    <h:outputFormat value = "#{o.id}" rendered="#{!o.bloque}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -27,7 +28,8 @@
                             Nom
                         </h:commandLink>
                     </f:facet>
-                        #{o.nom}
+                    <h:outputFormat value = "#{o.nom}" rendered="#{o.bloque}" style="color:red" />
+                    <h:outputFormat value = "#{o.nom}" rendered="#{!o.bloque}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -35,21 +37,22 @@
                         Email
                         </h:commandLink>
                     </f:facet>
-                        #{o.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Mot de passe</f:facet>
-                        #{o.motDePasse}
+                        <h:outputFormat value = "#{o.email}" rendered="#{o.bloque}" style="color:red" />
+                        <h:outputFormat value = "#{o.email}" rendered="#{!o.bloque}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Inscription</f:facet>
-                    <h:outputText value="#{o.dateInscription}">
+                    <h:outputText value="#{o.dateInscription}" rendered="#{o.bloque}" style="color:red">
+                        <f:convertDateTime pattern="dd MMM YYYY" locale="fr"/>
+                    </h:outputText>
+                    <h:outputText value="#{o.dateInscription}" rendered="#{!o.bloque}">
                         <f:convertDateTime pattern="dd MMM YYYY" locale="fr"/>
                     </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Bloqué</f:facet>
-                        #{o.bloque}
+                        <h:outputFormat value = "#{o.bloque}" rendered="#{o.bloque}" style="color:red" />
+                        <h:outputFormat value = "#{o.bloque}" rendered="#{!o.bloque}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"></f:facet>
