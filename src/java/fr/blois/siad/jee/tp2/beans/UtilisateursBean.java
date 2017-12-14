@@ -5,7 +5,6 @@ import fr.blois.siad.jee.tp2.services.UtilisateurService;
 import fr.blois.siad.jee.tp2.services.UtilisateurServiceBean;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +25,14 @@ public class UtilisateursBean {
     
     @Size(min = 2, max = 32, message = "Le nom doit être entre {min} et {max} caractères" )
     private String nom;
+    
+    @Size(min = 8, max = 32, message = "Le mot de passe doit être entre {min} et {max} caractères")
+    private String nouveauMotDePasse;
+    
+    @Size(min = 8, max = 32, message = "Le mot de passe doit être entre {min} et {max} caractères")
+    private String confirmationNouveauMotDePasse;
+    
+    private Utilisateur utilisateur;
     
     private static final long serialVersionUID = 1L;
     
@@ -110,6 +117,30 @@ public class UtilisateursBean {
         this.nom = nom;
     }
 
+    public String getNouveauMotDePasse() {
+        return nouveauMotDePasse;
+    }
+
+    public void setNouveauMotDePasse(String nouveauMotDePasse) {
+        this.nouveauMotDePasse = nouveauMotDePasse;
+    }
+
+    public String getConfirmationNouveauMotDePasse() {
+        return confirmationNouveauMotDePasse;
+    }
+
+    public void setConfirmationNouveauMotDePasse(String confirmationNouveauMotDePasse) {
+        this.confirmationNouveauMotDePasse = confirmationNouveauMotDePasse;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+    
     public void setUtilisateurs(List<Utilisateur> utilisateurs) {
 
     }
@@ -130,9 +161,50 @@ public class UtilisateursBean {
         if (!context.getMessageList().isEmpty()) {
             return null;
         }
+        
+        List<Utilisateur> utilisateurs = utilisateurService.listerTous(triCourant);
+        
+        for (Utilisateur u : utilisateurs) {
+            if(u.getEmail().equals(email)) {
+                context.addMessage(null, new FacesMessage("Un utilisateur avec ce mail existe déjà"));
+                return null;
+            }
+            if(u.getNom().equals(nom)) {
+                context.addMessage(null, new FacesMessage("Un utilisateur avec ce nom existe déjà"));
+                return null;
+            }            
+        }
 
         // Cas nominal
         utilisateurService.ajouter(new Utilisateur(null, email, motDePasse, nom, new Date(), false));
+        
+        nom = null;
+        email = null;
+        motDePasse = null;
+        return "index";
+    }
+    
+    public String checkChangeMDP() {
+        // Validation
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (nouveauMotDePasse == null || nouveauMotDePasse.isEmpty()) {
+            context.addMessage(null, new FacesMessage("Nouveau mot de passe obligatoire"));
+        }
+        else if (confirmationNouveauMotDePasse == null || confirmationNouveauMotDePasse.isEmpty()) {
+            context.addMessage(null, new FacesMessage("Confimation obligatoire"));
+        }
+        else if(!confirmationNouveauMotDePasse.equals(nouveauMotDePasse)) {
+           context.addMessage(null, new FacesMessage("Les mots de passes sont différents !"));
+        }
+        if (!context.getMessageList().isEmpty()) {
+            return null;
+        }
+
+        // Cas nominal
+        utilisateurService.changeMDP(utilisateur.getId(), nouveauMotDePasse);
+        
+        nouveauMotDePasse = null;
+        confirmationNouveauMotDePasse = null;
         return "index";
     }
     
@@ -149,6 +221,12 @@ public class UtilisateursBean {
     public String debloquer(Integer id) {
         utilisateurService.debloquer(id);
         return "index";
+    }
+    
+    public String initChangePassword(Utilisateur u) {
+        utilisateur = u;
+        
+        return "nouveauMDP";
     }
     
 }

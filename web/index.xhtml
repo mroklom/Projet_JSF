@@ -55,10 +55,16 @@
                         <h:outputFormat value = "#{o.bloque}" rendered="#{!o.bloque}"/>
                 </h:column>
                 <h:column>
+                    <f:facet name="header">MDP</f:facet>
+                    <h:outputFormat value = "#{o.motDePasse}" rendered="#{o.bloque}" style="color:red" />
+                    <h:outputFormat value = "#{o.motDePasse}" rendered="#{!o.bloque}"/>
+                </h:column>
+                <h:column>
                     <f:facet name="header"></f:facet>
                         <h:commandButton value="Supprimer" action="${utilisateursBean.supprimer(o.id)}" />
                         <h:commandButton value="Bloquer" action="${utilisateursBean.bloquer(o.id)}" />
                         <h:commandButton value="Débloquer" action="${utilisateursBean.debloquer(o.id)}" />
+                        <h:commandButton value="Nouveau mot de passe" action="#{utilisateursBean.initChangePassword(o)}" />
                 </h:column>
             </h:dataTable>
         </h:form>

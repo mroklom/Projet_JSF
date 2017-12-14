@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+
+    </h:head>
+    <h:body>
+        <h1>Changement de mot de passe de #{utilisateursBean.utilisateur.nom}</h1>
+	<f:view>
+            <h:messages style="color:red;"/>
+		<h:form>
+			<h:panelGrid columns="2">
+                                <h:outputLabel for="newMotDePasse" value="Nouveau mot de passe" />
+                                <h:inputText id="nouveauMDP" size="12" value="#{utilisateursBean.nouveauMotDePasse}" />
+                                <h:outputLabel for="confirmMotDePasse" value="Confirmez mot de passe" />
+                                <h:inputText id="confirmationNouveauMDP" size="12" value="#{utilisateursBean.confirmationNouveauMotDePasse}" />
+                                <h:commandButton id="btnChangeMDP" value="Valider" action="#{utilisateursBean.checkChangeMDP()}" />
+			</h:panelGrid>
+		</h:form>
+	</f:view>
+    </h:body>
+</html>
