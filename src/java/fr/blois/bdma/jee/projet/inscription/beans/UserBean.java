@@ -1,8 +1,8 @@
-package fr.blois.siad.jee.tp2.beans;
+package fr.blois.bdma.jee.projet.inscription.beans;
 
-import fr.blois.siad.jee.tp2.dto.User;
-import fr.blois.siad.jee.tp2.services.UserService;
-import fr.blois.siad.jee.tp2.services.UserServiceBean;
+import fr.blois.bdma.jee.projet.inscription.dto.User;
+import fr.blois.bdma.jee.projet.inscription.services.UserService;
+import fr.blois.bdma.jee.projet.inscription.services.UserServiceBean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
