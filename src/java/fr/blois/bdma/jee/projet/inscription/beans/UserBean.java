@@ -18,7 +18,8 @@ import javax.validation.constraints.Size;
 @SessionScoped
 public class UserBean implements Serializable{
     
-    @Pattern(regexp = "[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})")
+    @Pattern(regexp = "[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})",
+            message = "Entrez une adresse email valide")
     private String email;
     
     @Size(min = 8, max = 32, message = "Le mot de passe doit être entre {min} et {max} caractères")
@@ -152,7 +153,7 @@ public class UserBean implements Serializable{
             context.addMessage(null, new FacesMessage("Confimation obligatoire"));
         }
         else if(!newPasswordConfirmation.equals(newPassword)) {
-           context.addMessage(null, new FacesMessage("Les mots de passes sont différents !"));
+           context.addMessage(null, new FacesMessage("Les mots de passe sont différents !"));
         }
         if (!context.getMessageList().isEmpty()) {
             return null;
